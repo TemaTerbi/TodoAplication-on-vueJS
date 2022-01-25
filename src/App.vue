@@ -1,15 +1,38 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app">
+    <h1>Todo Aplication</h1>
+    <addTask @add-task="addTask"/>
+  </div>
+  <TodoList v-bind:todos="todos" @remove-task="removeTask" v-if="todos.length"/>
+  <p v-else>No Todos!</p>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import TodoList from '@/components/TodoList'
+import addTask from '@/components/addTask'
 
 export default {
   name: 'App',
+  data() {
+    return {
+      todos: [
+        {id: 1, title:'Купить молоко', completed: false},
+        {id: 2, title:'Купить хлеб', completed: false},
+        {id: 3, title:'Купить масло', completed: false}
+      ]
+    }
+  },
   components: {
-    HelloWorld
+    TodoList,
+    addTask
+  },
+  methods: {
+    removeTask(id) {
+      this.todos = this.todos.filter(t => t.id !== id)
+    },
+    addTask(task){
+      this.todos.push(task)
+    }
   }
 }
 </script>
